@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Freiburg Knights · Jugend</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #f4f7f4;
+    --surface:    #ffffff;
+    --surface2:   #eaf0ea;
+    --border:     rgba(0,0,0,0.09);
+    --border-hi:  rgba(27,110,40,0.3);
+    --green:      #1b6e28;
+    --green-glow: rgba(27,110,40,0.08);
+    --white:      #ffffff;
+    --text:       rgba(0,0,0,0.88);
+    --text-muted: rgba(0,0,0,0.45);
+    --text-dim:   rgba(0,0,0,0.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade   { animation: fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) both; }
+  .fade-1 { animation-delay: 0.05s; }
+  .fade-2 { animation-delay: 0.15s; }
+  .fade-3 { animation-delay: 0.25s; }
+  .fade-4 { animation-delay: 0.35s; }
+  .fade-5 { animation-delay: 0.45s; }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    padding: 64px 28px 56px;
+    overflow: hidden;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 520px; height: 380px;
+    background: radial-gradient(ellipse at 50% 30%, rgba(27,110,40,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 28px; right: 28px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    opacity: 0.6;
+  }
+
+  .hero-inner { max-width: 520px; margin: 0 auto; position: relative; }
+
+  .hero-eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 20px; height: 1px;
+    background: var(--green);
+    opacity: 0.6;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 18vw, 96px);
+    color: #0f2d14;
+    letter-spacing: 2px;
+    line-height: 0.9;
+  }
+  .hero-title .age {
+    display: block;
+    font-size: clamp(48px, 13vw, 72px);
+    letter-spacing: 3px;
+    background: linear-gradient(135deg, var(--green) 0%, #4db34d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-top: 4px;
+  }
+  .hero-title .sport {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    -webkit-text-fill-color: var(--text-muted);
+    margin-top: 14px;
+  }
+
+  .hero-divider { width: 40px; height: 1px; background: var(--border); margin: 24px 0; }
+
+  .hero-desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 320px;
+  }
+
+  .section-sep { height: 1px; background: var(--border); margin: 0 28px; }
+
+  main { max-width: 520px; margin: 0 auto; padding: 36px 24px 80px; }
+
+  .block-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    margin-top: 36px;
+  }
+  .block-label:first-child { margin-top: 0; }
+
+  /* ─── TRAINING CARDS ─── */
+  .t-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 22px 24px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    transition: border-color 0.2s, background 0.2s;
+    cursor: default;
+  }
+  .t-card:hover { border-color: var(--border-hi); background: var(--surface2); }
+
+  .t-day {
+    flex: 0 0 68px;
+    border-right: 1px solid var(--border);
+    padding-right: 20px;
+    margin-right: 20px;
+    text-align: center;
+  }
+  .t-day .name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    color: var(--green);
+    line-height: 1;
+    letter-spacing: 2px;
+  }
+  .t-day .full {
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 1.5px;
+    margin-top: 3px;
+    text-transform: uppercase;
+  }
+
+  .t-info { flex: 1; }
+  .t-info .title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+  .t-info .sub   { font-size: 11px; color: var(--text-muted); }
+
+  .t-time { flex: 0 0 auto; text-align: right; }
+  .t-time .start {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: #0f2d14;
+    line-height: 1;
+    letter-spacing: 1px;
+    display: block;
+  }
+  .t-time .end {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--text-muted);
+    line-height: 1;
+    letter-spacing: 1px;
+    display: block;
+    text-align: right;
+    margin-top: 2px;
+  }
+
+  /* ─── FEATURES ─── */
+  .features {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .feature-row {
+    background: var(--surface);
+    padding: 16px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transition: background 0.15s;
+  }
+  .feature-row:hover { background: var(--surface2); }
+  .feature-label { font-size: 12px; color: var(--text-muted); }
+  .feature-value { font-size: 12px; font-weight: 500; color: var(--text); text-align: right; }
+
+  /* ─── LOCATION ─── */
+  .loc-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .loc-card:hover { border-color: var(--border-hi); background: var(--surface2); }
+
+  .loc-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--green-glow);
+    border: 1px solid var(--border-hi);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .loc-icon svg { width: 22px; height: 22px; }
+
+  .loc-info .loc-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .loc-info .loc-sub  { font-size: 11px; color: var(--text-muted); }
+
+  /* ─── CTA ─── */
+  .cta-wrap { margin-top: 36px; }
+  .cta-btn {
+    display: block;
+    width: 100%;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    padding: 18px 24px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    text-align: center;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    text-decoration: none;
+  }
+  .cta-btn:hover { opacity: 0.88; transform: scale(0.99); }
+  .cta-note { font-size: 11px; color: var(--text-dim); text-align: center; letter-spacing: 0.3px; margin-top: 10px; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 28px 28px 48px;
+    text-align: center;
+    max-width: 520px;
+    margin: 0 auto;
+    border-top: 1px solid var(--border);
+  }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 3px; color: var(--text-dim); }
+  .footer-logo span { color: var(--green); }
+  .footer-sub { font-size: 10px; color: var(--text-dim); letter-spacing: 1.5px; margin-top: 6px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow fade fade-1">Freiburg Knights · Saison 2025</p>
+    <h1 class="hero-title fade fade-2">
+      Jugend
+      <span class="age">Training Baseball</span>
+      <span class="sport"> </span>
+    </h1>
+    <div class="hero-divider fade fade-3"></div>
+    <p class="hero-desc fade fade-4">Schüler U12 &amp; Jugend U15 — Trainingszeiten, Ort und alles auf einen Blick.</p>
+  </div>
+</header>
+
+<div class="section-sep"></div>
+
+<main>
+
+  <p class="block-label fade fade-3">Schüler U12 · Jahrgang 2017 – 2014</p>
+
+  <div class="t-card fade fade-3">
+    <div class="t-day"><div class="name">DI</div><div class="full">Dienstag</div></div>
+    <div class="t-info"><div class="title">Schüler U12</div><div class="sub">Ballpark Robert-Ruh-Weg</div></div>
+    <div class="t-time"><span class="start">17:00</span><span class="end">– 18:30</span></div>
+  </div>
+
+  <div class="t-card fade fade-3">
+    <div class="t-day"><div class="name">DO</div><div class="full">Donnerstag</div></div>
+    <div class="t-info"><div class="title">Schüler U12</div><div class="sub">Ballpark Robert-Ruh-Weg</div></div>
+    <div class="t-time"><span class="start">17:00</span><span class="end">– 18:30</span></div>
+  </div>
+
+  <p class="block-label fade fade-4">Jugend U15 · Jahrgang 2013 – 2011</p>
+
+  <div class="t-card fade fade-4">
+    <div class="t-day"><div class="name">DI</div><div class="full">Dienstag</div></div>
+    <div class="t-info"><div class="title">Jugend U15</div><div class="sub">Ballpark Robert-Ruh-Weg</div></div>
+    <div class="t-time"><span class="start">17:00</span><span class="end">– 18:30</span></div>
+  </div>
+
+  <div class="t-card fade fade-4">
+    <div class="t-day"><div class="name">DO</div><div class="full">Donnerstag</div></div>
+    <div class="t-info"><div class="title">Jugend U15</div><div class="sub">Ballpark Robert-Ruh-Weg</div></div>
+    <div class="t-time"><span class="start">17:00</span><span class="end">– 18:30</span></div>
+  </div>
+
+  <p class="block-label fade fade-4">Details</p>
+  <div class="features fade fade-4">
+    <div class="feature-row">
+      <span class="feature-label">Altersgruppe</span>
+      <span class="feature-value">U12 &amp; U15</span>
+    </div>
+    <div class="feature-row">
+      <span class="feature-label">Probetraining</span>
+      <span class="feature-value">Kostenlos &amp; jederzeit</span>
+    </div>
+    <div class="feature-row">
+      <span class="feature-label">Ausrüstung</span>
+      <span class="feature-value">Wird gestellt</span>
+    </div>
+  </div>
+
+  <p class="block-label fade fade-5">Trainingsort</p>
+  <a class="loc-card fade fade-5" href="https://maps.app.goo.gl/uAUCFemWVADHyHU27" target="_blank">
+    <div class="loc-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1b6e28" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+        <circle cx="12" cy="9" r="2.5"/>
+      </svg>
+    </div>
+    <div class="loc-info">
+      <div class="loc-name">Ballpark Robert-Ruh-Weg</div>
+      <div class="loc-sub">Freiburg im Breisgau · Auf Karte öffnen ↗</div>
+    </div>
+  </a>
+
+  <div class="cta-wrap fade fade-5">
+    <a href="https://www.freiburg-knights.de" class="cta-btn">JETZT PROBETRAINING VEREINBAREN</a>
+    <p class="cta-note">www.freiburg-knights.de · Keine Vorkenntnisse nötig</p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-logo"><span>FREIBURG</span> KNIGHTS</div>
+  <p class="footer-sub">Baseball · Est. 1989 · Freiburg im Breisgau</p>
+</footer>
+
+</body>
+</html>
